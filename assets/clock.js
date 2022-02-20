@@ -26,7 +26,7 @@ let timerStartHour = 0;
 let timerStartSec = 0;
 const setClock = () => {
   const currentDate = new Date();
-  const secondRatio = currentDate.getSeconds() / 60;
+  const secondRatio = currentDate.getSeconds() / 60; //Salvar
   const minuteRatio = (secondRatio + currentDate.getMinutes()) / 60;
   const hourRatio = (minuteRatio + currentDate.getHours()) / 12;
   setRotation(mainHandHour, hourRatio);
@@ -76,12 +76,14 @@ const lapSecHandRot = () => {
   for(let i=0;i<61;i++) {
     
     setInterval(()=> {
-      await new Promise(() => setTimeout(r, 2000));
+      // await new Promise(() => setTimeout(r, 2000));
       setRotation(lapHandSec,i/60)
     }, 1000);
     console.log(i);
   }
   }
+
+  //Testing the branch
   
 
 function startLap() {
