@@ -19,8 +19,8 @@ const timerMin = document.getElementById('minutes');
 const timerSec = document.getElementById('seconds');
 const lapStopBtn = document.createElement('button');
 const setTimerStopBtn = document.createElement('button');
-let lapSeCounter=0;
-let lapSeCounterBuffer = 0;
+let lapSeCounter = 1;
+let lapStopInterval;
 
 let secondRatio = 0;
 let timerStartMin = 0;
@@ -40,11 +40,10 @@ function setRotation(element, rotRatio) {
   element.style.setProperty('--rotation', rotRatio * 360);
 }
 
-
 const updateTimer = (totalSeconds, hours, minutes, seconds) => {
-    while (totalSeconds >= 0) {
-        seconds--;
-        totalSeconds--;
+  while (totalSeconds >= 0) {
+    seconds--;
+    totalSeconds--;
     // let minuteRatio = (secondRatio + minutes)/60;
     // let hourRatio = (minuteRatio + hours) / 12;
     // setRotation(timerHandMin, minuteRatio);
@@ -62,37 +61,33 @@ const setTimer = () => {
   setTimerStopBtn.classList = 'btn set-timer-stop';
   setTimerStopBtn.textContent = 'Stop';
   setTimerInputs.append(setTimerStopBtn);
-  setTimerStopBtn.addEventListener('click', setTimerStopBtnHandler)
+  setTimerStopBtn.addEventListener('click', setTimerStopBtnHandler);
   let totalSeconds = timerStartHour * 360 + timerStartMin * 60 + timerStartSec;
   updateTimer(totalSeconds, timerStartHour, timerStartMin, timerStartSec);
 };
 
-function stopLap() {
+function stopLapHandler() {
   lapStopBtn.classList.toggle('visible');
   lapStartBtn.classList.toggle('visible');
-  setRotation(lapHandSec, 0);
-  return;
+  clearInterval(lapStopInterval);
+  console.log(lapSeCounter);
 }
 
 const lapSecHandRot = () => {
-  setRotation(lapHandSec, lapSeCounter/60);
-  console.log(lapSeCounter);
+  setRotation(lapHandSec, lapSeCounter / 60);
   lapSeCounter++;
-  
-  }
-
-  //Testing the branch
-  
+  console.log(lapSeCounter);
+};
 
 function startLap() {
-    lapStartBtn.classList.toggle('visible');
-    lapStopBtn.classList = 'btn';
-    lapStopBtn.style.backgroundColor = 'red';
-    lapStopBtn.textContent = 'Stop';
-    lapButtons.prepend(lapStopBtn);
-    lapStopBtn.addEventListener('click', stopLap);
-    setInterval(lapSecHandRot,1000);
-};
+  lapStartBtn.classList.toggle('visible');
+  lapStopBtn.classList = 'btn';
+  lapStopBtn.style.backgroundColor = 'red';
+  lapStopBtn.textContent = 'Stop';
+  lapButtons.prepend(lapStopBtn);
+  lapStopBtn.addEventListener('click', stopLapHandler);
+  lapStopInterval = setInterval(lapSecHandRot, 1000);
+}
 
 timerHour.addEventListener('click', () => {
   let hours = parseInt(timerHour.value);
