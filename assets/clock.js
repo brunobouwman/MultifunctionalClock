@@ -19,6 +19,8 @@ const timerMin = document.getElementById('minutes');
 const timerSec = document.getElementById('seconds');
 const lapStopBtn = document.createElement('button');
 const setTimerStopBtn = document.createElement('button');
+let lapSeCounter=0;
+let lapSeCounterBuffer = 0;
 
 let secondRatio = 0;
 let timerStartMin = 0;
@@ -73,14 +75,10 @@ function stopLap() {
 }
 
 const lapSecHandRot = () => {
-  for(let i=0;i<61;i++) {
-    
-    setInterval(()=> {
-      // await new Promise(() => setTimeout(r, 2000));
-      setRotation(lapHandSec,i/60)
-    }, 1000);
-    console.log(i);
-  }
+  setRotation(lapHandSec, lapSeCounter/60);
+  console.log(lapSeCounter);
+  lapSeCounter++;
+  
   }
 
   //Testing the branch
@@ -93,7 +91,7 @@ function startLap() {
     lapStopBtn.textContent = 'Stop';
     lapButtons.prepend(lapStopBtn);
     lapStopBtn.addEventListener('click', stopLap);
-    lapSecHandRot();
+    setInterval(lapSecHandRot,1000);
 };
 
 timerHour.addEventListener('click', () => {
