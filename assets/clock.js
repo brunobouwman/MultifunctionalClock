@@ -19,17 +19,19 @@ const timerMin = document.getElementById('minutes');
 const timerSec = document.getElementById('seconds');
 const lapStopBtn = document.createElement('button');
 const setTimerStopBtn = document.createElement('button');
+const resetTimerBtn = document.getElementById('reset-timer');
+
 let lapSeCounter = 1,
   lapMinCounter = 0,
   lapHourCounter = 0,
   lapStopSec,
   lapStopMin,
   lapStopHour;
- 
-let  totalSeconds = 0,
-timerStartSec = 0,
-timerStartMin = 0,
-timerStartHour = 0,
+
+let totalSeconds = 0,
+  timerStartSec = 0,
+  timerStartMin = 0,
+  timerStartHour = 0,
   timerStopSec,
   timerStopMin,
   timerStopHour;
@@ -51,59 +53,75 @@ function setRotation(element, rotRatio) {
   element.style.setProperty('--rotation', rotRatio * 360);
 }
 
-
-const startTimer = () => {
-    timerStopSec = setInterval(timerSecHandler, 1000);
-    timerStopMin = setInterval(timerMinHandler, 1000);
-    timerStopHour = setInterval(timerHourHandler, 1000);
-};
-
 const timerSecHandler = () => {
-  setRotation(timerHandSec, (timerStartSec/60));
+  setRotation(timerHandSec, timerStartSec / 60);
   timerStartSec--;
   if (timerStartSec == 0) {
     timerStartSec = 60;
     if (timerStartMin !== 0) {
       timerStartMin--;
     }
-    }
+  }
 };
 
 const timerMinHandler = () => {
   if (timerMinHandler !== 0) {
-  setRotation(timerHandMin, (timerStartSec/60)/60);
-  if (timerStartMin == 0) {
-    timerStartMin = 60;
-    if (timerStartHour !== 0) {
-      timerStartHour--
+    setRotation(timerHandMin, timerStartSec / 60 / 60);
+    if (timerStartMin == 0) {
+      timerStartMin = 60;
+      if (timerStartHour !== 0) {
+        timerStartHour--;
+      }
     }
   }
-}
 };
 
 const timerHourHandler = () => {
   if (timerStartHour !== 0) {
-  setRotation(timerHandHour, (timerStartMin/60)/12);
-  if (timerStartHour == 0) {
-    timerStartHour = 12;
+    setRotation(timerHandHour, timerStartMin / 60 / 12);
+    if (timerStartHour == 0) {
+      timerStartHour = 12;
+    }
   }
-}
 };
-
 
 const setTimerStopBtnHandler = () => {
   setTimerStopBtn.classList.toggle('visible');
   setTimerBtn.classList.toggle('visible');
+  clearInterval(timerStopSec);
+  clearInterval(timerStopMin);
+  clearInterval(timerStopHour);
 };
 
-const setTimer = () => {
-  setTimerBtn.classList.toggle('visible');
-  setTimerStopBtn.classList = 'btn set-timer-stop';
-  setTimerStopBtn.textContent = 'Stop';
-  setTimerInputs.append(setTimerStopBtn);
-  setTimerStopBtn.addEventListener('click', setTimerStopBtnHandler);
+const startTimer = () => {
+  timerStopSec = setInterval(timerSecHandler, 1000);
+  timerStopMin = setInterval(timerMinHandler, 1000);
+  timerStopHour = setInterval(timerHourHandler, 1000);
+};
+
+const resetTimerHandler = () => {
+  setRotation(timerHandHour, 0);
+  setRotation(timerHandMin, 0);
+  setRotation(timerHandSec, 0);
+  timerStartHour = 0;
+  timerStartMin = 0;
+  timerStartSec = 0;
+  timerHour.value = 0;
+  timerMin.value = 0;
+  timerSec.value = 0;
+};
+
+const setTimerHandler = () => {
   totalSeconds = timerStartHour * 360 + timerStartMin * 60 + timerStartSec;
-  startTimer();
+  if (totalSeconds !== 0) {
+    console.log(timerStartHour, timerStartMin, timerStartSec);
+    setTimerBtn.classList.toggle('visible');
+    setTimerStopBtn.classList = 'btn set-timer-stop';
+    setTimerStopBtn.textContent = 'Stop';
+    setTimerInputs.prepend(setTimerStopBtn);
+    setTimerStopBtn.addEventListener('click', setTimerStopBtnHandler);
+    startTimer();
+  }
 };
 
 function stopLapHandler() {
@@ -183,7 +201,8 @@ timerSec.addEventListener('click', () => {
   timerStartSec = seconds;
 });
 
-setTimerBtn.addEventListener('click', setTimer);
+setTimerBtn.addEventListener('click', setTimerHandler);
+resetTimerBtn.addEventListener('click', resetTimerHandler);
 lapStartBtn.addEventListener('click', startLapHandler);
 lapResetBtn.addEventListener('click', resetLapHandler);
 

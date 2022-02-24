@@ -29,12 +29,15 @@
      <div class="number number11">11</div>
      <div class="number number12">12</div>            
     </div>
-    <div class="inputs">
+    <div class="set-timer-inputs">
      <input type="number" id="hours" min="0" max="12" /> :
      <input type="number" id="minutes" min="0" max="60" /> :
      <input type="number" id="seconds" min="0" max="60" /> <br />
-     <button class="btn set-timer">Set timer</button>
-     </div>
+    </div>
+    <div class ="set-timer-btns">
+     <button class="btn set-timer" id="start-timer">Set timer</button>
+     <button class="btn reset" id="reset-timer">Reset</button>
+    </div>
  </section>
  <section class="main-clock">
      <div class="clock">
@@ -80,7 +83,7 @@
     <div class="lap-buttons" id="lap--buttons">
         <button class ="btn start">Start</button>
         <button id="lap">Lap</button>
-        <button id="reset">Reset</button>
+        <button class="btn reset" id="reset">Reset</button>
     </div>
  </section>
  </body>

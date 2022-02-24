@@ -28,6 +28,10 @@ input {
   flex: 2;
 } */
 
+button {
+  cursor: pointer;
+}
+
 .main-clock .clock {
   background-color: #091921;
   background-size: cover;
@@ -171,8 +175,17 @@ input {
   /* border: 1px solid red; */
 }
 
-.inputs {
+.set-timer-inputs {
+  margin-top: 1rem;
   text-align: center;
+}
+
+.set-timer-btns {
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-evenly;
 }
 
 #lap--clock{ 
@@ -187,7 +200,7 @@ input {
 .btn {
   /* display: block; */
   position: relative;
-  border: 1px solid black;
+  border: 1px solid #091921;
   cursor: pointer;
   width: 50px;
   height: 50px;
@@ -207,9 +220,8 @@ input {
 }
 
 .set-timer-stop {
-  margin: 10px 20%;
+  /* margin: 10px 20%; */
   background-color: red;
-  border: 1px solid #091921;
 }
 
 #lap {
@@ -220,7 +232,7 @@ input {
   border-radius: 50%;
 }
 
-#reset {
+.btn.reset {
   background-color: black;
   border: 1px solid #091921;
   width: 50px;
@@ -229,6 +241,24 @@ input {
   color: white;
   margin-left: 3px;
 }
+
+#reset-timer {
+  margin: auto;
+}
+
+#start-timer {
+  margin: auto;
+}
+
+/* #reset {
+  background-color: black;
+  border: 1px solid #091921;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  color: white;
+  margin-left: 3px;
+} */
 
 .number.number1 {
   --rotation: 30deg;
