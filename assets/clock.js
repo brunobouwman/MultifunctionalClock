@@ -14,16 +14,18 @@ const lapButtons = document.getElementById('lap--buttons');
 const lapStartBtn = lapButtons.querySelector('button');
 const lapMarkBtn = document.getElementById('lap');
 const lapResetBtn = document.getElementById('reset');
+const lapStopBtn = document.createElement('button');
 const timerHour = document.getElementById('hours');
 const timerMin = document.getElementById('minutes');
 const timerSec = document.getElementById('seconds');
-const lapStopBtn = document.createElement('button');
 const setTimerStopBtn = document.createElement('button');
 const resetTimerBtn = document.getElementById('reset-timer');
+const lapTimeDisplay = document.getElementById('lap-time-display');
 
 let lapSeCounter = 1,
   lapMinCounter = 0,
   lapHourCounter = 0,
+  LapFlag = 0,
   lapStopSec,
   lapStopMin,
   lapStopHour;
@@ -138,28 +140,46 @@ const lapSecHandRot = () => {
   lapSeCounter++;
   if (lapSeCounter > 60) {
     lapSeCounter = 0;
-  }
-  console.log(lapSeCounter);
-};
-const lapMinHandRot = () => {
-  setRotation(lapHandMin, (lapSeCounter / 60 + lapMinCounter) / 60);
-  if (lapSeCounter == 60) {
     lapMinCounter++;
   }
   if (lapMinCounter > 60) {
     lapMinCounter = 0;
-  }
-  console.log(lapMinCounter);
-};
-const lapHourHandRot = () => {
-  setRotation(lapHandHour, (lapMinCounter / 60 + lapHourCounter) / 12);
-  if (lapMinCounter == 60) {
-    lapMinCounter++;
+    lapHourCounter++;
   }
   if (lapHourCounter > 12) {
     lapHourCounter = 0;
   }
-  console.log(lapHourCounter);
+};
+
+const lapMinHandRot = () => {
+  setRotation(lapHandMin, (lapSeCounter / 60 + lapMinCounter) / 60);
+};
+
+const lapHourHandRot = () => {
+  setRotation(lapHandHour, (lapMinCounter / 60 + lapHourCounter) / 12);
+};
+
+const laptimeHandler = () => {
+  let lapHourBuffer, lapMinBuffer, lapSecBuffer;
+  lapHourBuffer = lapHourCounter;
+  lapMinBuffer = lapMinCounter;
+  lapSecBuffer = lapSeCounter;
+  if (lapHourBuffer < 10 ){
+    lapHourBuffer = `0${lapHourBuffer}`;
+  }
+  if (lapMinBuffer < 10) {
+    lapMinBuffer = `0${lapMinBuffer}`;
+  }
+  if (lapSeCounter < 10) {
+    lapSecBuffer = `0${lapSecBuffer}`;
+  }
+
+    const lapTimeElement = document.createElement('li');
+    lapTimeElement.className = 'lap-times';
+      lapTimeElement.innerHTML = `
+    <p>${lapHourBuffer}:${lapMinBuffer}:${lapSecBuffer}</p>
+    `;
+    lapTimeDisplay.append(lapTimeElement);    
 };
 
 function startLapHandler() {
@@ -178,9 +198,14 @@ const resetLapHandler = () => {
   lapSeCounter = 0;
   lapMinCounter = 0;
   lapHourCounter = 0;
+  lapTotalTimerCounter = 0;
   setRotation(lapHandSec, lapSeCounter);
   setRotation(lapHandMin, lapMinCounter);
   setRotation(lapHandHour, lapHourCounter);
+  const timeDisplayLength = lapTimeDisplay.children.length;
+  for (let i=0;i<timeDisplayLength;i++) {
+    lapTimeDisplay.children[i].remove();
+  }
 };
 
 timerHour.addEventListener('click', () => {
@@ -205,7 +230,7 @@ setTimerBtn.addEventListener('click', setTimerHandler);
 resetTimerBtn.addEventListener('click', resetTimerHandler);
 lapStartBtn.addEventListener('click', startLapHandler);
 lapResetBtn.addEventListener('click', resetLapHandler);
-
+lapMarkBtn.addEventListener('click', laptimeHandler);
 setClock();
 
 setInterval(setClock, 1000); //Calls function setClock every 1000ms = 1s
