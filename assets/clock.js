@@ -22,6 +22,7 @@ const setTimerStopBtn = document.createElement('button');
 const resetTimerBtn = document.getElementById('reset-timer');
 const lapTimeDisplay = document.getElementById('lap-time-display');
 
+
 let lapSeCounter = 1,
   lapMinCounter = 0,
   lapHourCounter = 0,
@@ -68,6 +69,8 @@ const timerSecHandler = () => {
       }
     }
   } else {
+    var alarm = new Audio('./assets/alarm.mp3');
+    alarm.play();
     setTimerStopBtnHandler();
   }
 };
@@ -83,7 +86,11 @@ const timerMinHandler = () => {
         }
       }
     }
-  } else setTimerStopBtnHandler();
+  } else {
+    var alarm = new Audio('./assets/alarm.mp3');
+    alarm.play();
+    setTimerStopBtnHandler();
+  }
 };
 
 const timerHourHandler = () => {
@@ -94,7 +101,11 @@ const timerHourHandler = () => {
         timerStartHour = 12;
       }
     }
-  } else setTimerStopBtnHandler();
+  } else {
+    var alarm = new Audio('./assets/alarm.mp3');
+    alarm.play();
+    setTimerStopBtnHandler();
+  }
 };
 
 const setTimerStopBtnHandler = () => {
